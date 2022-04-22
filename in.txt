@@ -1,0 +1,17 @@
+< ! docprogram ID_program > 
+< SUB VARIABLE > 
+   < x AS INT />
+   < y AS INT /> 
+   < ARRAY AS INT > 
+      < numbers : 10 />
+   </ ARRAY >
+   < ARRAY AS INT > 
+      < numbers1 : 10 />
+   </ ARRAY >
+</ SUB VARIABLE >
+< SUB CONSTANTE > 
+   < A = 5 /> 
+</ SUB CONSTANTE >
+< body > 
+</ body >
+</ docprogram >
