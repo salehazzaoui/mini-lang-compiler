@@ -8,7 +8,7 @@ int yylex();
 int yyerror(char *);
 extern FILE* yyin;
 extern int row, column;
-int ii=1; char Nc2[12]=""; 
+int ntemp=1; char temp[12]=""; 
 %}
 %union {
     char* id; char* type; int entier; double reel; char* chaine;
@@ -89,16 +89,67 @@ impl: IDF AFC INTEGER {
     ;
 /*-------------------------------------------------- partie instructions ------------------------------------------------*/
 inst: affect ;
-affect: OP AFF DP IDF V exp SCL affect {/*dec(strdup($4));*/}
+affect: OP AFF DP IDF V exp SCL affect {
+                                        dec($4);
+                                        if(typeIdf($4) != $6.type){
+                                          yyerror("error semantique uncomptabilite des types \n");
+                                        }else{
+                                          generer_quad("=", $6.res, " ", $4);
+                                        }
+                                       }
       | 
       ;
-exp: exp ADD exp
-   | exp MIN exp
-   | exp MUL exp
-   | exp DIV exp
+exp: exp ADD exp {
+                    if($1.type != $3.type){
+                      yyerror("error semantique uncomptabilite des types \n");
+                    }else{
+                      $$.type=$1.type;   
+                      sprintf(temp,"T%d",ntemp);
+                      ntemp++;
+                      $$.res=strdup(temp);
+                      temp[0]='\0';
+							        generer_quad("+",$1.res,$3.res,$$.res);
+                    }
+                  }
+   | exp MIN exp {
+                    if($1.type != $3.type){
+                      yyerror("error semantique uncomptabilite des types \n");
+                    }else{
+                      $$.type=$1.type;   
+                      sprintf(temp,"T%d",ntemp);
+                      ntemp++;
+                      $$.res=strdup(temp);
+                      temp[0]='\0';
+							        generer_quad("-",$1.res,$3.res,$$.res);
+                    }
+                  }
+   | exp MUL exp {
+                    if($1.type != $3.type){
+                      yyerror("error semantique uncomptabilite des types \n");
+                    }else{
+                      $$.type=$1.type;   
+                      sprintf(temp,"T%d",ntemp);
+                      ntemp++;
+                      $$.res=strdup(temp);
+                      temp[0]='\0';
+							        generer_quad("*",$1.res,$3.res,$$.res);
+                    }
+                  }
+   | exp DIV exp {
+                    if($1.type != $3.type){
+                      yyerror("error semantique uncomptabilite des types \n");
+                    }else{
+                      $$.type=$1.type;   
+                      sprintf(temp,"T%d",ntemp);
+                      ntemp++;
+                      $$.res=strdup(temp);
+                      temp[0]='\0';
+							        generer_quad("/",$1.res,$3.res,$$.res);
+                    }
+                  }
    | OPR exp CPR {$$.type=$2.type; $$.res=$2.res;}
-   | INTEGER {$$.type = 1; $$.res = $1;}
-   | FLOAT   {$$.type = 2; sprintf (Nc2[ii], "%f",$1); $$.res= Nc2[ii];ii++;}
+   | INTEGER {$$.type = 1; sprintf (temp, "%d",$1); $$.res= strdup(temp);ntemp++; temp[0]='\0';}
+   | FLOAT   {$$.type = 2; sprintf (temp, "%f",$1); $$.res= strdup(temp);ntemp++; temp[0]='\0';}
    | IDF     {dec($1); $$.type = typeIdf($1); $$.res = strdup($1);}
    ;
 /*input: OP INPUT DP QU signef QU SCL input 
@@ -125,6 +176,7 @@ int main ()
 init();
 yyparse ();
 printHashTable();
+afficher_quad();
 fclose (yyin);
 }
 

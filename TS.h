@@ -16,11 +16,10 @@ element *hashtable[TABLE_SIZE];
 
 void init();
 int hash(char *);
-int search(char *, int*, element **);
+int search(char *, int *, element **);
 void insert(char *, char *);
 void insert_type(char *name, char *type, int varType, int size);
 int typeIdf(char *);
 void printHashTable();
 
 #endif // TS_H
-
