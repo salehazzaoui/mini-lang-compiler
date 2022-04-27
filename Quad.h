@@ -9,6 +9,7 @@ typedef struct
     char res[100];  // Résultat
 } Quadruplet;
 
+extern int qc;
 Quadruplet quad[1000];
 void generer_quad(char *oper, char *op1, char *op2, char *res);
 void afficher_quad();

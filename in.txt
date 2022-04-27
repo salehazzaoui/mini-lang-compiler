@@ -4,15 +4,24 @@
    < y AS INT /> 
    < ARRAY AS INT > 
       < numbers : 10 />
+      < numbers1 : 15 />
    </ ARRAY >
-   < ARRAY AS INT > 
-      < numbers1 : 10 />
+   < ARRAY AS FLT > 
+      < numbers2 : 10 />
    </ ARRAY >
 </ SUB VARIABLE >
 < SUB CONSTANTE > 
-   < A = 5 /> 
+   < A = 8.2 /> 
 </ SUB CONSTANTE >
 < body > 
-    <AFF: x, (6/3)+2*3-1/>
+   <AFF: x, (6/3)+2*3-1/>
+   <IF: NOT(5+3) > 
+   <THEN> 
+     <AFF: y, 1/>
+   </THEN> 
+   <ELSE> 
+      <AFF: y, 0/> 
+   </ELSE> 
+   </IF>
 </ body >
 </ docprogram >

@@ -24,3 +24,14 @@ void double_dec(char *el)
         yyerror("erreur semantique double declaration d'un IDF \n");
     }
 }
+
+int check_constante(char *el)
+{
+    int index;
+    element *adr;
+    search(el, &index, &adr);
+    if (strcmp(adr->type, "constante") == 0)
+    {
+        yyerror("erreur semantique no affectation de constante \n");
+    }
+}

@@ -4,29 +4,32 @@
 #include <stdlib.h>
 #include"TS.h"
 #include"RS.h"
+#include"Quad.h"
 int yylex();
 int yyerror(char *);
 extern FILE* yyin;
 extern int row, column;
 int ntemp=1; char temp[12]=""; 
+int arrayType, res_el;
 %}
 %union {
     char* id; char* type; int entier; double reel; char* chaine;
     struct {int type;char* res;}NT;
 }
-%token<id> VARIABLE BODY CONSTANTE IDF AS IDP DOCP SUB OR AND SUP SUPE INF INFE EGA DIF NOT
+%token<id> VARIABLE BODY CONSTANTE IDF AS IDP DOCP SUB
 %token<id> AFF INPUT OUTPUT IF THEN ELSE DO WHILE FOR UNTIL ARRAY
 %token<type> INT FLT STR CHR BOL
 %token<entier> INTEGER
 %token<reel> FLOAT
 %token<chaine> CHAR STRING
+%token<NT> OR AND SUP SUPE INF INFE EGA DIF NOT
 %token OP CL SCL OCL XLA MIN ADD MUL DIV BAR DP V SFINT SFFLT SFSTR SFCHR SFBOL AFC OPR CPR QU
 %left OR
 %left AND
 %left SUP SUPE INF INFE EGA DIF
 %left ADD MIN
 %left MUL DIV
-%type<NT> exp
+%type<NT> exp exp_log
 %start s
 %%
 
@@ -34,26 +37,23 @@ s: start program fin;
 start: OP XLA DOCP IDP CL;
 fin: OCL DOCP CL;
 program: variable constante body | variable body | body;
-body: OP BODY CL inst OCL BODY CL;
+body: OP BODY CL inst_list OCL BODY CL;
 
 /*-------------------------------------------------- partie declaration ------------------------------------------------*/
 variable: OP SUB VARIABLE CL declare OCL SUB VARIABLE CL ;
 declare: OP dec SCL declare 
        | arrays
        ;
-arrays: OP ARRAY AS arraysdec OCL ARRAY CL arrays | ;
-arraysdec: INT CL OP IDF DP INTEGER SCL {
-                                          double_dec(strdup($4)); 
-                                          insert_type(strdup($4) ,"variable" , 1, $6);
-                                        }
-         | FLT CL OP IDF DP INTEGER SCL {
-                                          double_dec(strdup($4)); 
-                                          insert_type(strdup($4) ,"variable" , 2, $6);
-                                        }
-         | CHR CL OP IDF DP INTEGER SCL {
-                                          double_dec(strdup($4)); 
-                                          insert_type(strdup($4) ,"variable" , 3, $6);
-                                        }
+arrays: OP ARRAY AS arraytype CL arraysdec OCL ARRAY CL arrays | ;
+arraytype: INT {arrayType = 1;}
+         | FLT {arrayType = 2;}
+         | CHR {arrayType = 3;}
+         ;
+arraysdec: OP IDF DP INTEGER SCL arraysdec  {
+                                              double_dec(strdup($2)); 
+                                              insert_type(strdup($2) ,"variable" , arrayType, $4);
+                                            }
+         |
          ;
 dec: IDF AS INT {
                   double_dec(strdup($1)); 
@@ -81,23 +81,33 @@ ass: OP impl  SCL ass | ;
 impl: IDF AFC INTEGER {
                         double_dec(strdup($1)); 
                         insert_type(strdup($1) ,"constante" ,1, 0);
+                        sprintf (temp, "%d",$3);
+                        generer_quad("=", temp, " ", $1);
+                        ntemp++; temp[0]='\0';
                       }
     | IDF AFC FLOAT   {
                         double_dec(strdup($1));
                         insert_type(strdup($1) ,"constante" ,2, 0);
+                        sprintf (temp, "%f",$3);
+                        generer_quad("=", temp, " ", $1);
+                        ntemp++; temp[0]='\0';
                       }
     ;
 /*-------------------------------------------------- partie instructions ------------------------------------------------*/
-inst: affect ;
-affect: OP AFF DP IDF V exp SCL affect {
+inst_list: inst_list inst
+         | inst
+         ;
+inst: affect | condition ;
+/*-------------------------------------------------  Partie affectation -------------------------------------------------------------*/
+affect: OP AFF DP IDF V exp SCL    {
                                         dec($4);
+                                        check_constante($4);
                                         if(typeIdf($4) != $6.type){
                                           yyerror("error semantique uncomptabilite des types \n");
                                         }else{
                                           generer_quad("=", $6.res, " ", $4);
                                         }
-                                       }
-      | 
+                                    } 
       ;
 exp: exp ADD exp {
                     if($1.type != $3.type){
@@ -166,6 +176,86 @@ output: OP OUTPUT DP contate SCL output
      |
      ;
 contate: ;*/
+/*--------------------------------------------- Partie condition ------------------------------------------------*/
+condition: OP IF DP exp_log CL then else OCL IF CL;
+then: OP THEN CL inst_list OCL THEN CL ;
+else: OP ELSE CL inst_list OCL ELSE CL
+    |
+    ;
+exp_log: exp {$$.res = $1.res}
+       | AND OPR exp_log V exp_log CPR {
+                                           sprintf(temp, "%d", qc+4);
+                                           generer_quad("BZ", " ", $3.res, temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "%d", qc+3);
+                                           generer_quad("BZ", " ", $5.res, temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "T%d", ntemp);
+                                           ntemp++;
+                                           $$.res = strdup(temp);
+                                           temp[0] ='\0';
+                                           generer_quad("=", "1", " ", $$.res);
+                                           sprintf(temp, "%d", qc+2);
+                                           generer_quad("BR", " ", " ", temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "T%d", ntemp);
+                                           ntemp++;
+                                           $$.res = strdup(temp);
+                                           temp[0] ='\0';
+                                           generer_quad("=", "0", " ", $$.res);
+                                        }
+       | OR OPR exp_log V exp_log CPR {
+                                           sprintf(temp, "%d", qc+3);
+                                           generer_quad("BZ", " ", $3.res, temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "T%d", ntemp);
+                                           ntemp++;
+                                           $$.res = strdup(temp);
+                                           temp[0] ='\0';
+                                           generer_quad("=", "1", " ", $$.res);
+                                           sprintf(temp, "%d", qc+4);
+                                           generer_quad("BR", " ", " ", temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "%d", qc+2);
+                                           generer_quad("BZ", " ", $5.res, temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "%d", qc-2);
+                                           generer_quad("BR", " ", " ", temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "T%d", ntemp);
+                                           ntemp++;
+                                           $$.res = strdup(temp);
+                                           temp[0] ='\0';
+                                           generer_quad("=", "0", " ", $$.res);
+                                        }
+       | NOT OPR exp_log CPR            {
+                                           sprintf(temp, "%d", qc+3);
+                                           generer_quad("BZ", " ", $3.res, temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "T%d", ntemp);
+                                           ntemp++;
+                                           $$.res = strdup(temp);
+                                           temp[0] ='\0';
+                                           generer_quad("=", "0", " ", $$.res);
+                                           sprintf(temp, "%d", qc+2);
+                                           generer_quad("BR", " ", " ", temp);
+                                           temp[0] ='\0';
+                                           sprintf(temp, "T%d", ntemp);
+                                           ntemp++;
+                                           $$.res = strdup(temp);
+                                           temp[0] ='\0';
+                                           generer_quad("=", "1", " ", $$.res);
+                                        }
+       | SUP OPR exp_log V exp_log CPR
+       | INF OPR exp_log V exp_log CPR
+       | SUPE OPR exp_log V exp_log CPR
+       | INFE OPR exp_log V exp_log CPR
+       | EGA OPR exp_log V exp_log CPR
+       | DIF OPR exp_log V exp_log CPR
+       ;
+/*exp_logs: exp_log exp_logs {res_el = $1.res;}
+    |
+    ;*/
 
 %%
 int yyerror (char* msg)
