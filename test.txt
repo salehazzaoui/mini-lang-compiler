@@ -17,13 +17,25 @@
    < A = 8.2 /> 
 </ SUB CONSTANTE >
 < body > 
+   <INPUT : a "donner la valeur de : $" />
+   <OUTPUT: "a est $:"+a+ "b est: $"+b />
+   <AFF: x, (6/3)+2*3-1/>
    <IF: AND(DIF(5,2), SUPE(10,6)) > 
    <THEN> 
-     <AFF: y, 1+6/>
+     <AFF: y, 1/>
    </THEN> 
    <ELSE> 
-      <AFF: y, 1-6/> 
+      <AFF: y, 0/> 
    </ELSE> 
    </IF>
+   <FOR i=1 UNTIL x> 
+      <OUTPUT: "condition vérifiée" /> 
+      <AFF: b, b+1 />
+   </FOR>
+   <DO> 
+      <OUTPUT: "condition vérifiée" /> 
+      <AFF: b, b-1 />
+      <WHILE : AND(EGA(a,3),SUP(7,b)) /> 
+   </DO>
 </ body >
 </ docprogram >

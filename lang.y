@@ -10,7 +10,7 @@ int yyerror(char *);
 extern FILE* yyin;
 extern int row, column;
 int ntemp=1; char temp[12]=""; 
-int arrayType, if_BZ;
+int arrayType, if_BZ = 0, if_BR=0;
 %}
 %union {
     char* id; char* type; int entier; double reel; char* chaine;
@@ -148,6 +148,8 @@ exp: exp ADD exp {
    | exp DIV exp {
                     if($1.type != $3.type){
                       yyerror("error semantique uncomptabilite des types \n");
+                    }else if($3.res == 0){
+                      yyerror("error semantique divise sur zero \n");
                     }else{
                       $$.type=$1.type;   
                       sprintf(temp,"T%d",ntemp);
@@ -190,25 +192,45 @@ content_out: STRING ADD IDF addition_idf | STRING
 addition_idf: ADD STRING addition_idf | ADD STRING ADD IDF addition_idf | ;
 
 /*--------------------------------------------- Partie IF ------------------------------------------------*/
-/*
-! condition: OP IF DP exp_log CL OP THEN CL inst_list OCL THEN CL OP ELSE CL inst_list OCL ELSE CL OCL IF CL;
 
-*condition: A inst_list OCL ELSE CL OCL IF CL;
-*A: B inst_list OCL THEN CL OP ELSE ;
-*B: OP IF DP exp_log CL OP THEN CL;
+condition:  Bcond else_bloc OCL IF CL ;
 
-*/
-condition: OP IF DP exp_log CL then else OCL IF CL {
+else_bloc: OP ELSE CL inst_list OCL ELSE CL  {
+                                                  sprintf(temp, "%d", qc);
+                                                  strcpy(quad[if_BR].res, temp);
+                                              }
+         |
+         ;
+         
+Bcond: Acond OP THEN CL inst_list OCL THEN CL {
+                                         if_BR = qc;
+                                         printf("qcThen = %d \n", qc);
+                                         printf("if_bz = %d \n", if_BZ);
+                                         generer_quad("BR", " ", " ", " ");
+                                         sprintf(temp, "%d", qc);
+                                         strcpy(quad[if_BZ].res, temp);
+                                         printf("quad = %s \n", quad[if_BZ].oper);
+                              
+                                       } 
+     ;
+Acond: OP IF DP exp_log CL   {
+                                  if_BZ = qc;
+                                  generer_quad("BZ", " ", $4.res, " ");
+                              }
+      ;
+
+
+/*condition: OP IF DP exp_log CL then else OCL IF CL {
                                            if_BZ = qc;
-                                           printf("if_bz = %d \n", if_BZ);
-                                           generer_quad("BZ", " ", " ", " ");
+                                           generer_quad("BZ", " ", $4.res, " ");
                                         }
          ; 
 then: OP THEN CL inst_list OCL THEN CL {
                                          printf("qcThen = %d \n", qc);
+                                         printf("if_bz = %d \n", if_BZ);
                                          sprintf(temp, "%d", qc);
-                                         strcpy(quad[if_BZ].res, temp);
-                                         printf("quad = %s \n", quad[if_BZ].oper);
+                                         strcpy(quad[23].res, temp);
+                                         printf("quad = %s \n", quad[22].oper);
                                          //qc++;
                                          temp[0] ='\0';
                                        } 
@@ -218,7 +240,7 @@ else: OP ELSE CL inst_list OCL ELSE CL {
                                          //qc++;
                                        } 
     |
-    ;
+    ;*/
 /*--------------------------------------------- Partie opération logique ------------------------------------------------*/
 exp_log: exp {$$.res = $1.res}
        | AND OPR exp_log V exp_log CPR {
@@ -236,10 +258,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BR", " ", " ", temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "0", " ", $$.res);
                                         }
        | OR OPR exp_log V exp_log CPR {
@@ -260,10 +282,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc-2);
                                            generer_quad("BR", " ", " ", temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "0", " ", $$.res);
                                         }
        | NOT OPR exp_log CPR            {
@@ -278,10 +300,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BR", " ", " ", temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "1", " ", $$.res);
                                         }
        | SUP OPR exp_log V exp_log CPR  {
@@ -291,7 +313,7 @@ exp_log: exp {$$.res = $1.res}
                                            temp[0] ='\0';
                                            generer_quad("-", $3.res, $5.res, $$.res);
                                            sprintf(temp, "%d", qc+3);
-                                           generer_quad("BGT", temp, $$.res, "0");
+                                           generer_quad("BGT", "0", $$.res, temp);
                                            temp[0] ='\0';
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -301,10 +323,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BZ", " ", $$.res, temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "1", " ", $$.res);
                                         }
        | INF OPR exp_log V exp_log CPR  {
@@ -314,7 +336,7 @@ exp_log: exp {$$.res = $1.res}
                                            temp[0] ='\0';
                                            generer_quad("-", $3.res, $5.res, $$.res);
                                            sprintf(temp, "%d", qc+3);
-                                           generer_quad("BLT", temp, $$.res, "0");
+                                           generer_quad("BLT", "0", $$.res, temp);
                                            temp[0] ='\0';
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -324,10 +346,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BZ", " ", $$.res, temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "1", " ", $$.res);
                                         }
        | SUPE OPR exp_log V exp_log CPR {
@@ -337,7 +359,7 @@ exp_log: exp {$$.res = $1.res}
                                            temp[0] ='\0';
                                            generer_quad("-", $3.res, $5.res, $$.res);
                                            sprintf(temp, "%d", qc+3);
-                                           generer_quad("BGE", temp, $$.res, "0");
+                                           generer_quad("BGE", "0", $$.res, temp);
                                            temp[0] ='\0';
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -347,10 +369,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BZ", " ", $$.res, temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "1", " ", $$.res);
                                         }
        | INFE OPR exp_log V exp_log CPR {
@@ -360,7 +382,7 @@ exp_log: exp {$$.res = $1.res}
                                            temp[0] ='\0';
                                            generer_quad("-", $3.res, $5.res, $$.res);
                                            sprintf(temp, "%d", qc+3);
-                                           generer_quad("BLE", temp, $$.res, "0");
+                                           generer_quad("BLE", "0", $$.res, temp);
                                            temp[0] ='\0';
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -370,10 +392,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BZ", " ", $$.res, temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "1", " ", $$.res);
                                         }
        | EGA OPR exp_log V exp_log CPR  {
@@ -393,10 +415,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BZ", " ", $$.res, temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                          /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "1", " ", $$.res);
                                         } 
        | DIF OPR exp_log V exp_log CPR  {
@@ -416,10 +438,10 @@ exp_log: exp {$$.res = $1.res}
                                            sprintf(temp, "%d", qc+2);
                                            generer_quad("BZ", " ", $$.res, temp);
                                            temp[0] ='\0';
-                                           sprintf(temp, "T%d", ntemp);
+                                           /*sprintf(temp, "T%d", ntemp);
                                            ntemp++;
                                            $$.res = strdup(temp);
-                                           temp[0] ='\0';
+                                           temp[0] ='\0';*/
                                            generer_quad("=", "1", " ", $$.res);
                                         } 
        ;
