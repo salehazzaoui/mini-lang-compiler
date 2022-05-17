@@ -1,10 +1,9 @@
 < ! docprogram ID_program > 
 < SUB VARIABLE > 
-   < x AS INT />
-   < y AS INT /> 
-   < i AS INT /> 
-   < a AS INT /> 
-   < b AS INT /> 
+   < x AS INT />;
+   < y AS INT />;
+   < a | b | k | i | j AS INT/>;
+   < n | m AS CHR/>;
    < ARRAY AS INT > 
       < numbers : 10 />
       < numbers1 : 15 />
@@ -14,16 +13,37 @@
    </ ARRAY >
 </ SUB VARIABLE >
 < SUB CONSTANTE > 
-   < A = 8.2 /> 
+   < A = 8.2 />;
 </ SUB CONSTANTE >
 < body > 
-   <IF: AND(DIF(5,2), SUPE(10,6)) > 
-   <THEN> 
-     <AFF: y, 1+6/>
-   </THEN> 
-   <ELSE> 
-      <AFF: y, 1-6/> 
-   </ELSE> 
+   <IF: SUP(a,10) > 
+      <THEN> 
+         <IF: INF(b,5) > 
+            <THEN> 
+               <AFF: k, a+b/>
+            </THEN> 
+            <ELSE> 
+               <AFF: k, a-b/> 
+            </ELSE> 
+         </IF>
+      </THEN> 
+      <ELSE> 
+         <AFF: k, a*b/> 
+      </ELSE> 
    </IF>
+   <FOR i=1 UNTIL x> 
+      <FOR j=1 UNTIL x> 
+         <AFF: j, j+1 />
+      </FOR>
+      <AFF: i, i+1 />
+   </FOR>
+   <DO>
+      <AFF: b, b-1 />
+      <DO>
+         <AFF: a, a+1 />
+         <WHILE : SUPE(a,10) /> 
+      </DO>
+      <WHILE : INF(b,7) /> 
+   </DO>
 </ body >
 </ docprogram >

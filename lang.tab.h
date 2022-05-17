@@ -88,15 +88,16 @@
      BAR = 304,
      DP = 305,
      V = 306,
-     SFINT = 307,
-     SFFLT = 308,
-     SFSTR = 309,
-     SFCHR = 310,
-     SFBOL = 311,
-     AFC = 312,
-     OPR = 313,
-     CPR = 314,
-     QU = 315
+     PV = 307,
+     SFINT = 308,
+     SFFLT = 309,
+     SFSTR = 310,
+     SFCHR = 311,
+     SFBOL = 312,
+     AFC = 313,
+     OPR = 314,
+     CPR = 315,
+     QU = 316
    };
 #endif
 
@@ -107,7 +108,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 15 "lang.y"
+#line 16 "lang.y"
 
     char* id; char* type; int entier; double reel; char* chaine;
     struct {int type;char* res;}NT;
@@ -115,7 +116,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 119 "lang.tab.h"
+#line 120 "lang.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
