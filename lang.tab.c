@@ -76,6 +76,7 @@
 #include"TS.h"
 #include"RS.h"
 #include"Quad.h"
+#include"asm.h"
 int yylex();
 int yyerror(char *);
 extern FILE* yyin;
@@ -86,7 +87,7 @@ int varType;
 
 
 /* Line 189 of yacc.c  */
-#line 90 "lang.tab.c"
+#line 91 "lang.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -182,7 +183,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 16 "lang.y"
+#line 17 "lang.y"
 
     char* id; char* type; int entier; double reel; char* chaine;
     struct {int type;char* res;}NT;
@@ -190,7 +191,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 194 "lang.tab.c"
+#line 195 "lang.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -202,7 +203,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 206 "lang.tab.c"
+#line 207 "lang.tab.c"
 
 #ifdef short
 # undef short
@@ -533,15 +534,15 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    37,    37,    38,    39,    40,    40,    40,    41,    44,
-      45,    46,    49,    51,    52,    54,    55,    56,    57,    58,
-      62,    62,    63,    64,    65,    66,    67,    69,    74,    78,
-      79,    79,    79,    81,    88,    98,   100,   101,   103,   104,
-     105,   106,   107,   113,   114,   116,   116,   116,   116,   116,
-     116,   118,   128,   140,   152,   164,   178,   179,   180,   181,
-     185,   205,   206,   206,   208,   208,   208,   212,   214,   218,
-     221,   234,   242,   243,   260,   280,   294,   308,   322,   336,
-     350,   369,   390,   398,   409,   415,   418
+       0,    38,    38,    39,    40,    41,    41,    41,    42,    45,
+      46,    47,    50,    52,    53,    55,    56,    57,    58,    59,
+      63,    63,    64,    65,    66,    67,    68,    70,    75,    79,
+      80,    80,    80,    82,    89,    99,   101,   102,   104,   105,
+     106,   107,   108,   114,   115,   117,   117,   117,   117,   117,
+     117,   119,   129,   141,   153,   165,   179,   180,   181,   182,
+     186,   206,   207,   207,   209,   209,   209,   213,   215,   219,
+     222,   235,   243,   244,   261,   281,   295,   309,   323,   337,
+     351,   370,   391,   399,   410,   416,   419
 };
 #endif
 
@@ -1601,91 +1602,91 @@ yyreduce:
         case 12:
 
 /* Line 1455 of yacc.c  */
-#line 49 "lang.y"
+#line 50 "lang.y"
     {double_dec(strdup((yyvsp[(1) - (2)].id)));insert_type(strdup((yyvsp[(1) - (2)].id)) ,"variable" ,typeV, 0);;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 51 "lang.y"
+#line 52 "lang.y"
     {double_dec(strdup((yyvsp[(2) - (3)].id))); insert_type(strdup((yyvsp[(2) - (3)].id)) ,"variable" ,typeV, 0);;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 54 "lang.y"
+#line 55 "lang.y"
     {typeV=1;;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 55 "lang.y"
+#line 56 "lang.y"
     {typeV=2;;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 56 "lang.y"
+#line 57 "lang.y"
     {typeV=3;;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 57 "lang.y"
+#line 58 "lang.y"
     {typeV=4;;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 58 "lang.y"
+#line 59 "lang.y"
     {typeV=5;;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 63 "lang.y"
+#line 64 "lang.y"
     {arrayType = 1;;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 64 "lang.y"
+#line 65 "lang.y"
     {arrayType = 2;;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 65 "lang.y"
+#line 66 "lang.y"
     {arrayType = 3;;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 66 "lang.y"
+#line 67 "lang.y"
     {arrayType = 4;;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 67 "lang.y"
+#line 68 "lang.y"
     {arrayType = 5;;}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 70 "lang.y"
+#line 71 "lang.y"
     {
               double_dec(strdup((yyvsp[(2) - (6)].id))); 
               insert_type(strdup((yyvsp[(2) - (6)].id)) ,"variable" , arrayType, (yyvsp[(4) - (6)].entier));
@@ -1695,7 +1696,7 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 81 "lang.y"
+#line 82 "lang.y"
     {
                         double_dec(strdup((yyvsp[(1) - (3)].id))); 
                         insert_type(strdup((yyvsp[(1) - (3)].id)) ,"constante" ,1, 0);
@@ -1708,7 +1709,7 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 88 "lang.y"
+#line 89 "lang.y"
     {
                         double_dec(strdup((yyvsp[(1) - (3)].id)));
                         insert_type(strdup((yyvsp[(1) - (3)].id)) ,"constante" ,2, 0);
@@ -1721,56 +1722,56 @@ yyreduce:
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 98 "lang.y"
+#line 99 "lang.y"
     {double_dec(strdup((yyvsp[(1) - (2)].id)));insert_type(strdup((yyvsp[(1) - (2)].id)) ,"constante" ,typeC, 0);;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 100 "lang.y"
+#line 101 "lang.y"
     {double_dec(strdup((yyvsp[(2) - (3)].id))); insert_type(strdup((yyvsp[(2) - (3)].id)) ,"constante" ,typeC, 0);;}
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 103 "lang.y"
+#line 104 "lang.y"
     {typeC=1;;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 104 "lang.y"
+#line 105 "lang.y"
     {typeC=2;;}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 105 "lang.y"
+#line 106 "lang.y"
     {typeC=3;;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 106 "lang.y"
+#line 107 "lang.y"
     {typeC=4;;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 107 "lang.y"
+#line 108 "lang.y"
     {typeC=5;;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 118 "lang.y"
+#line 119 "lang.y"
     {
                                         dec((yyvsp[(4) - (7)].id));
                                         check_constante((yyvsp[(4) - (7)].id));
@@ -1785,12 +1786,12 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 128 "lang.y"
+#line 129 "lang.y"
     {
-                    if((yyvsp[(1) - (3)].NT).type != (yyvsp[(3) - (3)].NT).type){
+                    if(comptabilite_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else{
-                      (yyval.NT).type=(yyvsp[(1) - (3)].NT).type;   
+                      (yyval.NT).type= get_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type);   
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       (yyval.NT).res=strdup(temp);
@@ -1803,12 +1804,12 @@ yyreduce:
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 140 "lang.y"
+#line 141 "lang.y"
     {
-                    if((yyvsp[(1) - (3)].NT).type != (yyvsp[(3) - (3)].NT).type){
+                    if(comptabilite_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else{
-                      (yyval.NT).type=(yyvsp[(1) - (3)].NT).type;   
+                      (yyval.NT).type= get_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type); 
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       (yyval.NT).res=strdup(temp);
@@ -1821,12 +1822,12 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 152 "lang.y"
+#line 153 "lang.y"
     {
-                    if((yyvsp[(1) - (3)].NT).type != (yyvsp[(3) - (3)].NT).type){
+                    if(comptabilite_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else{
-                      (yyval.NT).type=(yyvsp[(1) - (3)].NT).type;   
+                      (yyval.NT).type= get_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type); 
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       (yyval.NT).res=strdup(temp);
@@ -1839,14 +1840,14 @@ yyreduce:
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 164 "lang.y"
+#line 165 "lang.y"
     {
-                    if((yyvsp[(1) - (3)].NT).type != (yyvsp[(3) - (3)].NT).type){
+                    if(comptabilite_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else if((yyvsp[(3) - (3)].NT).res == 0){
                       yyerror("error semantique divise sur zero \n");
                     }else{
-                      (yyval.NT).type=(yyvsp[(1) - (3)].NT).type;   
+                      (yyval.NT).type= get_type((yyvsp[(1) - (3)].NT).type, (yyvsp[(3) - (3)].NT).type); 
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       (yyval.NT).res=strdup(temp);
@@ -1859,35 +1860,35 @@ yyreduce:
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 178 "lang.y"
+#line 179 "lang.y"
     {(yyval.NT).type=(yyvsp[(2) - (3)].NT).type; (yyval.NT).res=(yyvsp[(2) - (3)].NT).res;;}
     break;
 
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 179 "lang.y"
+#line 180 "lang.y"
     {(yyval.NT).type = 1; sprintf (temp, "%d",(yyvsp[(1) - (1)].entier)); (yyval.NT).res= strdup(temp);ntemp++; temp[0]='\0';;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 180 "lang.y"
+#line 181 "lang.y"
     {(yyval.NT).type = 2; sprintf (temp, "%f",(yyvsp[(1) - (1)].reel)); (yyval.NT).res= strdup(temp);ntemp++; temp[0]='\0';;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 181 "lang.y"
+#line 182 "lang.y"
     {dec((yyvsp[(1) - (1)].id)); (yyval.NT).type = typeIdf((yyvsp[(1) - (1)].id)); (yyval.NT).res = strdup((yyvsp[(1) - (1)].id));;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 185 "lang.y"
+#line 186 "lang.y"
     {
                                     dec((yyvsp[(4) - (6)].id));
                                     printf("la string est : %s \n", (yyvsp[(5) - (6)].chaine));
@@ -1912,7 +1913,7 @@ yyreduce:
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 214 "lang.y"
+#line 215 "lang.y"
     {
                                                   sprintf(temp, "%d", qc);
                                                   strcpy(quad[if_BR].res, temp);
@@ -1922,7 +1923,7 @@ yyreduce:
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 221 "lang.y"
+#line 222 "lang.y"
     {
                                          if_BR = qc;
                                          if_BZ = pile_pop();
@@ -1940,7 +1941,7 @@ yyreduce:
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 234 "lang.y"
+#line 235 "lang.y"
     {
                                   //if_BZ = qc;
                                   pile_push(qc);
@@ -1951,14 +1952,14 @@ yyreduce:
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 242 "lang.y"
+#line 243 "lang.y"
     {(yyval.NT).res = (yyvsp[(1) - (1)].NT).res;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 243 "lang.y"
+#line 244 "lang.y"
     {
                                            sprintf(temp, "%d", qc+4);
                                            generer_quad("BZ", " ", (yyvsp[(3) - (6)].NT).res, temp);
@@ -1981,7 +1982,7 @@ yyreduce:
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 260 "lang.y"
+#line 261 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BZ", " ", (yyvsp[(3) - (6)].NT).res, temp);
@@ -2007,7 +2008,7 @@ yyreduce:
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 280 "lang.y"
+#line 281 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BZ", " ", (yyvsp[(3) - (4)].NT).res, temp);
@@ -2027,7 +2028,7 @@ yyreduce:
   case 76:
 
 /* Line 1455 of yacc.c  */
-#line 294 "lang.y"
+#line 295 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BGT", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2047,7 +2048,7 @@ yyreduce:
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 308 "lang.y"
+#line 309 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BLT", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2067,7 +2068,7 @@ yyreduce:
   case 78:
 
 /* Line 1455 of yacc.c  */
-#line 322 "lang.y"
+#line 323 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BGE", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2087,7 +2088,7 @@ yyreduce:
   case 79:
 
 /* Line 1455 of yacc.c  */
-#line 336 "lang.y"
+#line 337 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BLE", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2107,7 +2108,7 @@ yyreduce:
   case 80:
 
 /* Line 1455 of yacc.c  */
-#line 350 "lang.y"
+#line 351 "lang.y"
     {
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -2132,7 +2133,7 @@ yyreduce:
   case 81:
 
 /* Line 1455 of yacc.c  */
-#line 369 "lang.y"
+#line 370 "lang.y"
     {
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -2157,7 +2158,7 @@ yyreduce:
   case 82:
 
 /* Line 1455 of yacc.c  */
-#line 390 "lang.y"
+#line 391 "lang.y"
     {
                                   for_BZ = pile_pop_1();
                                   sprintf(temp, "%d", qc+1);
@@ -2170,7 +2171,7 @@ yyreduce:
   case 83:
 
 /* Line 1455 of yacc.c  */
-#line 398 "lang.y"
+#line 399 "lang.y"
     {
                                             dec((yyvsp[(3) - (8)].id)); 
                                             dec((yyvsp[(7) - (8)].id));
@@ -2184,7 +2185,7 @@ yyreduce:
   case 84:
 
 /* Line 1455 of yacc.c  */
-#line 409 "lang.y"
+#line 410 "lang.y"
     {
                                           while_BZ = pile_pop_2();
                                           sprintf(temp, "%d", while_BZ);
@@ -2195,7 +2196,7 @@ yyreduce:
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 418 "lang.y"
+#line 419 "lang.y"
     { 
                     printf(" qc in debut while = %d \n" , qc); 
                     pile_push_2(qc);
@@ -2205,7 +2206,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2209 "lang.tab.c"
+#line 2210 "lang.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2417,7 +2418,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 424 "lang.y"
+#line 425 "lang.y"
 
 int yyerror (char* msg)
 {printf (" %s ligne %d colonne %d \n",msg,row,column); exit (0);return 1;}
@@ -2427,6 +2428,7 @@ int main ()
 yyin = fopen("in.txt", "r");
 init();
 yyparse ();
+generer_asm();
 printHashTable();
 afficher_quad();
 fclose (yyin);

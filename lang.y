@@ -5,6 +5,7 @@
 #include"TS.h"
 #include"RS.h"
 #include"Quad.h"
+#include"asm.h"
 int yylex();
 int yyerror(char *);
 extern FILE* yyin;
@@ -126,10 +127,10 @@ affect: OP AFF DP IDF V exp SCL    {
                                     } 
       ;
 exp: exp ADD exp {
-                    if($1.type != $3.type){
+                    if(comptabilite_type($1.type, $3.type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else{
-                      $$.type=$1.type;   
+                      $$.type= get_type($1.type, $3.type);   
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       $$.res=strdup(temp);
@@ -138,10 +139,10 @@ exp: exp ADD exp {
                     }
                   }
    | exp MIN exp {
-                    if($1.type != $3.type){
+                    if(comptabilite_type($1.type, $3.type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else{
-                      $$.type=$1.type;   
+                      $$.type= get_type($1.type, $3.type); 
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       $$.res=strdup(temp);
@@ -150,10 +151,10 @@ exp: exp ADD exp {
                     }
                   }
    | exp MUL exp {
-                    if($1.type != $3.type){
+                    if(comptabilite_type($1.type, $3.type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else{
-                      $$.type=$1.type;   
+                      $$.type= get_type($1.type, $3.type); 
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       $$.res=strdup(temp);
@@ -162,12 +163,12 @@ exp: exp ADD exp {
                     }
                   }
    | exp DIV exp {
-                    if($1.type != $3.type){
+                    if(comptabilite_type($1.type, $3.type) != 0){
                       yyerror("error semantique uncomptabilite des types \n");
                     }else if($3.res == 0){
                       yyerror("error semantique divise sur zero \n");
                     }else{
-                      $$.type=$1.type;   
+                      $$.type= get_type($1.type, $3.type); 
                       sprintf(temp,"T%d",ntemp);
                       ntemp++;
                       $$.res=strdup(temp);
@@ -430,6 +431,7 @@ int main ()
 yyin = fopen("in.txt", "r");
 init();
 yyparse ();
+generer_asm();
 printHashTable();
 afficher_quad();
 fclose (yyin);

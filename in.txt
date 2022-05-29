@@ -2,6 +2,7 @@
 < SUB VARIABLE > 
    < x AS INT />;
    < y AS INT />;
+   < t AS FLT />;
    < a | b | k | i | j AS INT/>;
    < n | m AS CHR/>;
    < ARRAY AS INT > 
@@ -20,10 +21,10 @@
       <THEN> 
          <IF: INF(b,5) > 
             <THEN> 
-               <AFF: k, a+b/>
+               <AFF: t, y/t/>
             </THEN> 
             <ELSE> 
-               <AFF: k, a-b/> 
+               <AFF: k, a+b/> 
             </ELSE> 
          </IF>
       </THEN> 

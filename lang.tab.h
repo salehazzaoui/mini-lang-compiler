@@ -108,7 +108,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 16 "lang.y"
+#line 17 "lang.y"
 
     char* id; char* type; int entier; double reel; char* chaine;
     struct {int type;char* res;}NT;

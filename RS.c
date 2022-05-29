@@ -35,3 +35,42 @@ int check_constante(char *el)
         yyerror("erreur semantique no affectation de constante \n");
     }
 }
+
+int comptabilite_type(int a, int b)
+{
+    int first, last;
+    first = a;
+    last = b;
+    if (first == 2 && last == 1)
+    {
+        return 0;
+    }
+    else if (first == 1 && last == 2)
+    {
+        return 0;
+    }
+    else if (first == last)
+    {
+        return 0;
+    }
+    return 1;
+}
+
+int get_type(int a, int b)
+{
+    int first, last;
+    first = a;
+    last = b;
+    if (first == 2 && last == 1)
+    {
+        return first;
+    }
+    else if (first == 1 && last == 2)
+    {
+        return last;
+    }
+    else if (first == last)
+    {
+        return first;
+    }
+}
