@@ -1,3 +1,4 @@
-.tp.exe
-.project.exe
-.lang.output
+*.exe
+lang.output
+/.vs
+/.vscode
