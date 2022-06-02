@@ -1,14 +1,9 @@
 TITLE mini_lang.asm: 
 DATA segment 
 	 A 	DW 	? 
-	 n 	DB 	? 
-	 m 	DB 	? 
-	 a 	DB 	? 
 	 b 	DB 	? 
-	 k 	DB 	? 
+	 a 	DB 	? 
 	 i 	DB 	? 
-	 j 	DB 	? 
-	 t 	DW 	? 
 	 y 	DB 	? 
 	 x 	DB 	? 
 	 numbers2 	DW 	10 	DUP(?) 
@@ -23,99 +18,107 @@ ASSUME CS:CODE, DS:DATA
 	 MOV AX,DATA 
 	 MOV DS, AX 
 	 MOV A,8.200000 
-	 MOV AX,0
-	 MOV T3,AX
-
-	 JMP 5
-4 : 	 MOV AX,1
-	 MOV T3,AX
-
-	 CMP T3,0
-	 JE 17
-	 CMP b,5
-	 JL 9
-	 MOV AX,0
-	 MOV T5,AX
-
-	 JMP 10
-9 : 	 MOV AX,1
-	 MOV T5,AX
-
-	 CMP T5,0
-	 JE 14
-	 MOVE AX,y
-	 DIV  AX,t
-	 MOVE  T6,AX
-	 MOV AX,T6
-	 MOV t,AX
-
-	 JMP 16
-14 : 	 MOVE AX,a
-	 ADD  AX,b
+	 MOVE AX,6
+	 DIV  AX,3
+	 MOVE  T4,AX
+	 MOVE AX,2
+	 MUL  AX,3
 	 MOVE  T7,AX
-	 MOV AX,T7
-	 MOV k,AX
-
-	 JMP 19
-17 : 	 MOVE AX,a
-	 MUL  AX,b
+	 MOVE AX,T4
+	 ADD  AX,T7
 	 MOVE  T8,AX
-	 MOV AX,T8
-	 MOV k,AX
-
-19 : 	 MOV AX,1
-	 MOV i,AX
-
-	 MOV AX,1
-	 MOV j,AX
-
-	 MOVE AX,j
-	 ADD  AX,1
+	 MOVE AX,T8
+	 SUB  AX,1
 	 MOVE  T10,AX
 	 MOV AX,T10
-	 MOV j,AX
+	 MOV x,AX
 
-	 JMP 22
-26 : 	 MOVE AX,i
-	 ADD  AX,1
-	 MOVE  T12,AX
-	 MOV AX,T12
-	 MOV i,AX
-
-	 JMP 20
-29 : 	 MOVE AX,b
-	 SUB  AX,1
-	 MOVE  T14,AX
-	 MOV AX,T14
-	 MOV b,AX
-
-31 : 	 MOVE AX,a
-	 ADD  AX,1
-	 MOVE  T16,AX
-	 MOV AX,T16
-	 MOV a,AX
-
-	 CMP a,10
-	 JGE 36
+	 MOVE AX,5
+	 SUB  AX,2
+	 MOVE  T13,AX
 	 MOV AX,0
+	 MOV T14,AX
+
+	 JMP 11
+	 MOV AX,1
+	 MOV T14,AX
+
+	 CMP 10,6
+	 JGE 14
+	 MOV AX,0
+	 MOV T17,AX
+
+	 JMP 15
+14 : 	 MOV AX,1
+	 MOV T17,AX
+
+	 CMP T14,0
+	 JE 19
+	 CMP T17,0
+	 JE 19
+	 MOV AX,1
 	 MOV T18,AX
 
-	 JMP 37
-36 : 	 MOV AX,1
+	 JMP 20
+19 : 	 MOV AX,0
 	 MOV T18,AX
 
 	 CMP T18,0
-	 JE 31
-	 CMP b,7
-	 JL 41
+	 JE 23
+	 MOV AX,1
+	 MOV y,AX
+
+	 JMP 24
+23 : 	 MOV AX,0
+	 MOV y,AX
+
+24 : 	 MOV AX,1
+	 MOV i,AX
+
+	 MOVE AX,b
+	 ADD  AX,1
+	 MOVE  T22,AX
+	 MOV AX,T22
+	 MOV b,AX
+
+	 JMP 25
+29 : 	 MOVE AX,b
+	 SUB  AX,1
+	 MOVE  T24,AX
+	 MOV AX,T24
+	 MOV b,AX
+
+	 MOVE AX,a
+	 SUB  AX,3
+	 MOVE  T26,AX
+	 CMP T26,0
+	 JE 35
 	 MOV AX,0
-	 MOV T20,AX
+	 MOV T27,AX
 
-	 JMP 42
-41 : 	 MOV AX,1
-	 MOV T20,AX
+	 JMP 36
+35 : 	 MOV AX,1
+	 MOV T27,AX
 
-	 CMP T20,0
+	 MOV AX,0
+	 MOV T29,AX
+
+	 JMP 40
+39 : 	 MOV AX,1
+	 MOV T29,AX
+
+	 CMP T27,0
+	 JE 44
+	 CMP T29,0
+	 JE 44
+	 MOV AX,1
+	 MOV T30,AX
+
+	 JMP 45
+44 : 	 MOV AX,0
+	 MOV T30,AX
+
+	 CMP T30,0
 	 JE 29
 MAIN ENDS 
 END MAIN 

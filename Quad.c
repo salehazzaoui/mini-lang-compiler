@@ -190,3 +190,22 @@ void pile_display_2()
 		printf("%d--->NULL\n\n", temp->data);
 	}
 }
+
+void optimisation()
+{
+	int i, j;
+	for (i = 0; i < qc; i++)
+	{
+		for (j = 0; j < qc; j++)
+		{
+			if (strcmp(quad[i].res, quad[j].op1) == 0 && strcmp(quad[j].oper, "=") == 0)
+			{
+				strcpy(quad[i].res, quad[j].res);
+				strcpy(quad[j].oper, " ");
+				strcpy(quad[j].op1, " ");
+				strcpy(quad[j].op2, " ");
+				strcpy(quad[j].res, " ");
+			}
+		}
+	}
+}

@@ -1,10 +1,10 @@
 < ! docprogram ID_program > 
 < SUB VARIABLE > 
-   < x AS INT />
-   < y AS INT /> 
-   < i AS INT /> 
-   < a AS INT /> 
-   < b AS INT /> 
+   < x AS INT />;
+   < y AS INT />; 
+   < i | j AS INT />; 
+   < a AS INT />; 
+   < b AS INT />; 
    < ARRAY AS INT > 
       < numbers : 10 />
       < numbers1 : 15 />
@@ -14,7 +14,7 @@
    </ ARRAY >
 </ SUB VARIABLE >
 < SUB CONSTANTE > 
-   < A = 8.2 /> 
+   < A = 8.2 />;
 </ SUB CONSTANTE >
 < body > 
    <INPUT : a "donner la valeur de : $" />

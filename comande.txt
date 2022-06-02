@@ -1,3 +1,0 @@
-flex lang.l
-bison -d lang.y
-gcc lex.yy.c lang.tab.c RS.c TS.c -o project

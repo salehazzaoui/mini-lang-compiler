@@ -48,4 +48,6 @@ void pile_push_2(int value);
 int pile_pop_2();
 void pile_display_2();
 
+void optimisation();
+
 #endif // QUAD_H

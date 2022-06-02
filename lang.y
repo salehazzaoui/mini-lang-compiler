@@ -431,6 +431,7 @@ int main ()
 yyin = fopen("in.txt", "r");
 init();
 yyparse ();
+//optimisation();
 generer_asm();
 printHashTable();
 afficher_quad();
