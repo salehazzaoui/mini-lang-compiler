@@ -541,8 +541,8 @@ static const yytype_uint16 yyrline[] =
      106,   107,   108,   114,   115,   117,   117,   117,   117,   117,
      117,   119,   129,   141,   153,   165,   179,   180,   181,   182,
      186,   206,   207,   207,   209,   209,   209,   213,   215,   219,
-     222,   235,   243,   244,   261,   281,   295,   309,   323,   337,
-     351,   370,   391,   399,   410,   416,   419
+     222,   230,   238,   239,   256,   276,   290,   304,   318,   332,
+     346,   365,   386,   394,   405,   411,   414
 };
 #endif
 
@@ -1927,21 +1927,16 @@ yyreduce:
     {
                                          if_BR = qc;
                                          if_BZ = pile_pop();
-                                         printf("pile bz pop = %d \n", if_BZ);
-                                         printf("qcThen = %d \n", qc);
-                                         printf("if_bz = %d \n", if_BZ);
                                          generer_quad("BR", " ", " ", " ");
                                          sprintf(temp, "%d", qc);
                                          strcpy(quad[if_BZ].res, temp);
-                                         printf("quad = %s \n", quad[if_BZ].oper);
-                              
                                        ;}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 235 "lang.y"
+#line 230 "lang.y"
     {
                                   //if_BZ = qc;
                                   pile_push(qc);
@@ -1952,14 +1947,14 @@ yyreduce:
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 243 "lang.y"
+#line 238 "lang.y"
     {(yyval.NT).res = (yyvsp[(1) - (1)].NT).res;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 244 "lang.y"
+#line 239 "lang.y"
     {
                                            sprintf(temp, "%d", qc+4);
                                            generer_quad("BZ", " ", (yyvsp[(3) - (6)].NT).res, temp);
@@ -1982,7 +1977,7 @@ yyreduce:
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 261 "lang.y"
+#line 256 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BZ", " ", (yyvsp[(3) - (6)].NT).res, temp);
@@ -2008,7 +2003,7 @@ yyreduce:
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 281 "lang.y"
+#line 276 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BZ", " ", (yyvsp[(3) - (4)].NT).res, temp);
@@ -2028,7 +2023,7 @@ yyreduce:
   case 76:
 
 /* Line 1455 of yacc.c  */
-#line 295 "lang.y"
+#line 290 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BGT", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2048,7 +2043,7 @@ yyreduce:
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 309 "lang.y"
+#line 304 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BLT", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2068,7 +2063,7 @@ yyreduce:
   case 78:
 
 /* Line 1455 of yacc.c  */
-#line 323 "lang.y"
+#line 318 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BGE", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2088,7 +2083,7 @@ yyreduce:
   case 79:
 
 /* Line 1455 of yacc.c  */
-#line 337 "lang.y"
+#line 332 "lang.y"
     {
                                            sprintf(temp, "%d", qc+3);
                                            generer_quad("BLE", (yyvsp[(3) - (6)].NT).res, (yyvsp[(5) - (6)].NT).res, temp);
@@ -2108,7 +2103,7 @@ yyreduce:
   case 80:
 
 /* Line 1455 of yacc.c  */
-#line 351 "lang.y"
+#line 346 "lang.y"
     {
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -2133,7 +2128,7 @@ yyreduce:
   case 81:
 
 /* Line 1455 of yacc.c  */
-#line 370 "lang.y"
+#line 365 "lang.y"
     {
                                            sprintf(temp, "T%d", ntemp);
                                            ntemp++;
@@ -2158,7 +2153,7 @@ yyreduce:
   case 82:
 
 /* Line 1455 of yacc.c  */
-#line 391 "lang.y"
+#line 386 "lang.y"
     {
                                   for_BZ = pile_pop_1();
                                   sprintf(temp, "%d", qc+1);
@@ -2171,7 +2166,7 @@ yyreduce:
   case 83:
 
 /* Line 1455 of yacc.c  */
-#line 399 "lang.y"
+#line 394 "lang.y"
     {
                                             dec((yyvsp[(3) - (8)].id)); 
                                             dec((yyvsp[(7) - (8)].id));
@@ -2185,7 +2180,7 @@ yyreduce:
   case 84:
 
 /* Line 1455 of yacc.c  */
-#line 410 "lang.y"
+#line 405 "lang.y"
     {
                                           while_BZ = pile_pop_2();
                                           sprintf(temp, "%d", while_BZ);
@@ -2196,9 +2191,8 @@ yyreduce:
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 419 "lang.y"
+#line 414 "lang.y"
     { 
-                    printf(" qc in debut while = %d \n" , qc); 
                     pile_push_2(qc);
                   ;}
     break;
@@ -2206,7 +2200,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2210 "lang.tab.c"
+#line 2204 "lang.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2418,7 +2412,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 425 "lang.y"
+#line 419 "lang.y"
 
 int yyerror (char* msg)
 {printf (" %s ligne %d colonne %d \n",msg,row,column); exit (0);return 1;}
@@ -2428,10 +2422,11 @@ int main ()
 yyin = fopen("in.txt", "r");
 init();
 yyparse ();
-//optimisation();
-generer_asm();
 printHashTable();
+//optimisation();
 afficher_quad();
+generer_asm();
+
 fclose (yyin);
 }
 

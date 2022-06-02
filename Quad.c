@@ -27,22 +27,21 @@ void afficher_quad()
 }
 
 struct Node *top = NULL;
-// Push() operation on a  stack
+
 void pile_push(int value)
 {
 	struct Node *newNode;
 	newNode = (struct Node *)malloc(sizeof(struct Node));
-	newNode->data = value; // assign value to the node
+	newNode->data = value;
 	if (top == NULL)
 	{
 		newNode->next = NULL;
 	}
 	else
 	{
-		newNode->next = top; // Make the node as top
+		newNode->next = top;
 	}
-	top = newNode; // top always points to the newly created node
-	printf("Node is Inserted\n\n");
+	top = newNode;
 }
 
 int pile_pop()
@@ -63,7 +62,7 @@ int pile_pop()
 
 void pile_display()
 {
-	// Display the elements of the stack
+
 	if (top == NULL)
 	{
 		printf("\nStack Underflow\n");
@@ -82,22 +81,21 @@ void pile_display()
 }
 
 struct Node1 *top1 = NULL;
-// Push() operation on a  stack
+
 void pile_push_1(int value)
 {
 	struct Node1 *newNode;
 	newNode = (struct Node1 *)malloc(sizeof(struct Node1));
-	newNode->data = value; // assign value to the node
+	newNode->data = value;
 	if (top1 == NULL)
 	{
 		newNode->next = NULL;
 	}
 	else
 	{
-		newNode->next = top1; // Make the node as top
+		newNode->next = top1;
 	}
-	top1 = newNode; // top always points to the newly created node
-	printf("Node is Inserted\n\n");
+	top1 = newNode;
 }
 
 int pile_pop_1()
@@ -118,7 +116,6 @@ int pile_pop_1()
 
 void pile_display_1()
 {
-	// Display the elements of the stack
 	if (top1 == NULL)
 	{
 		printf("\nStack Underflow\n");
@@ -137,22 +134,21 @@ void pile_display_1()
 }
 
 struct Node2 *top2 = NULL;
-// Push() operation on a  stack
+
 void pile_push_2(int value)
 {
 	struct Node2 *newNode;
 	newNode = (struct Node2 *)malloc(sizeof(struct Node2));
-	newNode->data = value; // assign value to the node
+	newNode->data = value;
 	if (top2 == NULL)
 	{
 		newNode->next = NULL;
 	}
 	else
 	{
-		newNode->next = top2; // Make the node as top
+		newNode->next = top2;
 	}
-	top2 = newNode; // top always points to the newly created node
-	printf("Node is Inserted\n\n");
+	top2 = newNode;
 }
 
 int pile_pop_2()
@@ -173,7 +169,6 @@ int pile_pop_2()
 
 void pile_display_2()
 {
-	// Display the elements of the stack
 	if (top2 == NULL)
 	{
 		printf("\nStack Underflow\n");

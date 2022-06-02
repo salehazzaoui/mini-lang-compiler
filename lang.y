@@ -222,14 +222,9 @@ else_bloc: OP ELSE CL inst_list OCL ELSE CL  {
 Bcond: Acond OP THEN CL inst_list OCL THEN CL {
                                          if_BR = qc;
                                          if_BZ = pile_pop();
-                                         printf("pile bz pop = %d \n", if_BZ);
-                                         printf("qcThen = %d \n", qc);
-                                         printf("if_bz = %d \n", if_BZ);
                                          generer_quad("BR", " ", " ", " ");
                                          sprintf(temp, "%d", qc);
                                          strcpy(quad[if_BZ].res, temp);
-                                         printf("quad = %s \n", quad[if_BZ].oper);
-                              
                                        } 
      ;
 Acond: OP IF DP exp_log CL   {
@@ -417,7 +412,6 @@ Awhile: Bwhile inst_list OP WHILE DP
       ;
 
 Bwhile: OP DO CL  { 
-                    printf(" qc in debut while = %d \n" , qc); 
                     pile_push_2(qc);
                   }
       ;
@@ -431,10 +425,11 @@ int main ()
 yyin = fopen("in.txt", "r");
 init();
 yyparse ();
-//optimisation();
-generer_asm();
 printHashTable();
+//optimisation();
 afficher_quad();
+generer_asm();
+
 fclose (yyin);
 }
 

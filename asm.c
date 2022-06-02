@@ -7,9 +7,10 @@
 
 void generer_asm()
 {
+    // change_temp();
+
     FILE *fasm;
 
-    // use appropriate location if you are using MacOS or Linux
     fasm = fopen("asm.txt", "w");
 
     if (fasm == NULL)
@@ -373,50 +374,6 @@ void generer_asm()
     fclose(fasm);
 }
 
-/*int recherche_etq(int val)
-{
-    int i = 0;
-    int trouve = -1;
-    char temp[12];
-    while (i < qc && trouve == -1)
-    {
-        sprintf(temp, "%d", val);
-        printf("val = %s == %s qc = %d \n", temp, quad[i].res, qc);
-        if ((strcmp(quad[i].oper, "BZ") == 0) && (strcmp(temp, quad[i].res) == 0))
-        {
-            trouve = 0;
-            return trouve;
-        }
-        if ((strcmp(quad[i].oper, "BR") == 0) && (strcmp(temp, quad[i].res) == 0))
-        {
-            trouve = 0;
-            return trouve;
-        }
-        if ((strcmp(quad[i].oper, "BGT") == 0) && (strcmp(temp, quad[i].res) == 0))
-        {
-            trouve = 0;
-            return trouve;
-        }
-        if ((strcmp(quad[i].oper, "BGE") == 0) && (strcmp(temp, quad[i].res) == 0))
-        {
-            trouve = 0;
-            return trouve;
-        }
-        if ((strcmp(quad[i].oper, "BLT") == 0) && (strcmp(temp, quad[i].res) == 0))
-        {
-            trouve = 0;
-            return trouve;
-        }
-        if ((strcmp(quad[i].oper, "BLE") == 0) && (strcmp(temp, quad[i].res) == 0))
-        {
-            trouve = 0;
-            return trouve;
-        }
-        i++;
-        return -1;
-    }
-}*/
-
 int recherche_etq(int val)
 {
     int i = 0, trouve = -1;
@@ -424,7 +381,6 @@ int recherche_etq(int val)
     sprintf(chaine, "%d", val);
     while ((i < qc) && (trouve = -1))
     {
-        printf("val = %s == %s qc = %d \n", chaine, quad[i].res, qc);
         if ((strcmp(quad[i].oper, "BZ") == 0) && (strcmp(quad[i].res, chaine) == 0))
         {
             trouve = 0;
@@ -459,3 +415,34 @@ int recherche_etq(int val)
     }
     return -1;
 }
+
+/*void change_temp()
+{
+    int i;
+    char op1[10], op2[10], res[10], temp[100];
+    int k = 0;
+    for (i = 0; i < qc; i++)
+    {
+        sprintf(op1, "%s", quad[i].op1);
+        sprintf(op2, "%s", quad[i].op2);
+        sprintf(res, "%s", quad[i].res);
+        if (op1[0] == "T")
+        {
+            sprintf(temp, "temp(%d)", k);
+            strcpy(quad[i].op1, temp);
+            k++;
+        }
+        if (op2[0] == "T")
+        {
+            sprintf(temp, "temp(%d)", k);
+            strcpy(quad[i].op2, temp);
+            k++;
+        }
+        if (res[0] == "T")
+        {
+            sprintf(temp, "temp(%d)", k);
+            strcpy(quad[i].res, temp);
+            k++;
+        }
+    }
+}*/
